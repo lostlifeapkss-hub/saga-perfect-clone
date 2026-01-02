@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import SectionHeading from "@/components/ui/SectionHeading";
 import {
   Accordion,
@@ -5,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { HelpCircle } from "lucide-react";
 
 const faqs = [
   {
@@ -51,33 +53,57 @@ const faqs = [
 
 const FAQSection = () => {
   return (
-    <section className="section-padding bg-secondary">
-      <div className="container-main">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-10">
+    <section className="section-padding bg-muted relative overflow-hidden">
+      {/* Background Decorations */}
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+      <div className="absolute bottom-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+
+      <div className="container-main relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="max-w-4xl mx-auto"
+        >
+          <div className="text-center mb-12">
+            <motion.div
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              className="w-16 h-16 gradient-card rounded-2xl flex items-center justify-center mx-auto mb-6"
+            >
+              <HelpCircle size={32} className="text-white" />
+            </motion.div>
             <SectionHeading>Frequently Asked Questions</SectionHeading>
-            <p className="text-muted-foreground mt-4">
+            <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
               Find answers to the most commonly asked questions about Summertime Saga Mod APK.
             </p>
           </div>
 
           <Accordion type="single" collapsible className="space-y-4">
             {faqs.map((faq, index) => (
-              <AccordionItem
+              <motion.div
                 key={index}
-                value={`item-${index}`}
-                className="bg-background rounded-lg border border-border px-6 data-[state=open]:border-primary"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }}
               >
-                <AccordionTrigger className="text-left font-semibold text-foreground hover:text-primary hover:no-underline">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground leading-relaxed">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
+                <AccordionItem
+                  value={`item-${index}`}
+                  className="bg-card rounded-2xl border border-border px-6 data-[state=open]:border-primary data-[state=open]:shadow-lg transition-all duration-300"
+                >
+                  <AccordionTrigger className="text-left font-semibold text-foreground hover:text-primary hover:no-underline py-5">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground leading-relaxed pb-5">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              </motion.div>
             ))}
           </Accordion>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -1,4 +1,5 @@
 import { Download } from "lucide-react";
+import { motion } from "framer-motion";
 import { Button } from "./button";
 
 interface DownloadButtonProps {
@@ -9,23 +10,27 @@ interface DownloadButtonProps {
 const DownloadButton = ({ variant = "default", className = "" }: DownloadButtonProps) => {
   if (variant === "hero") {
     return (
-      <a
+      <motion.a
         href="#"
-        className={`inline-flex items-center gap-3 bg-secondary text-primary font-bold text-lg px-8 py-4 rounded-xl hover:bg-secondary/90 transition-all shadow-lg hover:shadow-xl hover:scale-105 ${className}`}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className={`inline-flex items-center gap-3 bg-white text-primary font-bold text-lg px-8 py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 animate-pulse-glow ${className}`}
       >
         <Download size={24} />
         DOWNLOAD NOW
-      </a>
+      </motion.a>
     );
   }
 
   return (
-    <Button asChild className={className}>
-      <a href="#">
-        <Download size={18} />
-        Download
-      </a>
-    </Button>
+    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+      <Button asChild className={`gradient-primary border-0 shadow-lg hover:shadow-glow transition-shadow duration-300 ${className}`}>
+        <a href="#" className="gap-2">
+          <Download size={18} />
+          Download
+        </a>
+      </Button>
+    </motion.div>
   );
 };
 
