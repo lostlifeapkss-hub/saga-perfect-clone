@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp, List } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface TOCItem {
   id: string;
@@ -14,39 +15,59 @@ const TableOfContents = ({ items }: TableOfContentsProps) => {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
-    <div className="border-2 border-primary rounded-lg overflow-hidden">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="border-2 border-primary rounded-2xl overflow-hidden bg-card shadow-lg"
+    >
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between px-4 py-3 bg-primary/10 hover:bg-primary/20 transition-colors"
+        className="w-full flex items-center justify-between px-6 py-4 bg-primary/10 hover:bg-primary/15 transition-colors"
       >
-        <div className="flex items-center gap-2">
-          <List size={20} className="text-primary" />
-          <span className="font-bold text-foreground">Table of Contents</span>
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 gradient-card rounded-xl flex items-center justify-center">
+            <List size={20} className="text-white" />
+          </div>
+          <span className="font-bold text-lg text-foreground">Table of Contents</span>
         </div>
-        {isOpen ? (
-          <ChevronUp size={20} className="text-primary" />
-        ) : (
-          <ChevronDown size={20} className="text-primary" />
-        )}
+        <motion.div
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <ChevronDown size={24} className="text-primary" />
+        </motion.div>
       </button>
       
-      {isOpen && (
-        <nav className="px-4 py-3 bg-secondary">
-          <ol className="list-decimal list-inside space-y-2">
-            {items.map((item) => (
-              <li key={item.id}>
-                <a
+      <AnimatePresence>
+        {isOpen && (
+          <motion.nav
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="overflow-hidden"
+          >
+            <div className="px-6 py-4 grid sm:grid-cols-2 gap-2">
+              {items.map((item, index) => (
+                <motion.a
+                  key={item.id}
                   href={`#${item.id}`}
-                  className="text-primary hover:underline transition-colors"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  className="flex items-center gap-3 py-2 px-3 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors group"
                 >
+                  <span className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center text-xs font-semibold text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                    {index + 1}
+                  </span>
                   {item.title}
-                </a>
-              </li>
-            ))}
-          </ol>
-        </nav>
-      )}
-    </div>
+                </motion.a>
+              ))}
+            </div>
+          </motion.nav>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 };
 
