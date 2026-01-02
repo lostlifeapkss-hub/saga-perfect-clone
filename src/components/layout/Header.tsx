@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Download } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import gameIcon from "@/assets/game-icon.png";
 
 const navLinks = [
   { name: "Home", path: "/" },
-  { name: "PC Version", path: "/#pc-version" },
-  { name: "Old Version", path: "/#old-version" },
-  { name: "iOS Version", path: "/#ios-version" },
+  { name: "PC Version", path: "/pc-version" },
+  { name: "Old Version", path: "/old-version" },
+  { name: "iOS Version", path: "/ios-version" },
 ];
 
 const Header = () => {
@@ -15,13 +16,13 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
-  useEffect(() => {
+  useState(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  });
 
   return (
     <motion.header
@@ -31,20 +32,19 @@ const Header = () => {
       className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
           ? "bg-secondary/95 backdrop-blur-xl shadow-lg"
-          : "bg-secondary/80 backdrop-blur-md"
+          : "bg-secondary shadow-md"
       }`}
     >
       <div className="container-main">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <motion.div
+            <motion.img
               whileHover={{ scale: 1.05, rotate: 5 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-11 h-11 gradient-card rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-glow transition-shadow duration-300"
-            >
-              <span className="text-primary-foreground font-black text-xl">S</span>
-            </motion.div>
+              src={gameIcon}
+              alt="Summertime Saga"
+              className="w-10 h-10 md:w-12 md:h-12 rounded-xl shadow-lg"
+            />
             <div className="hidden sm:block">
               <span className="font-bold text-lg text-foreground">Summertime</span>
               <span className="font-bold text-lg text-primary ml-1">Saga</span>
@@ -73,7 +73,7 @@ const Header = () => {
               </Link>
             ))}
             <motion.a
-              href="#"
+              href="#download"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="ml-4 inline-flex items-center gap-2 gradient-primary text-primary-foreground font-semibold px-5 py-2.5 rounded-xl shadow-lg hover:shadow-glow transition-shadow duration-300"
@@ -129,7 +129,8 @@ const Header = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.4 }}
-                  href="#"
+                  href="#download"
+                  onClick={() => setMobileMenuOpen(false)}
                   className="inline-flex items-center justify-center gap-2 gradient-primary text-primary-foreground font-semibold px-5 py-3 rounded-xl mt-2"
                 >
                   <Download size={18} />
