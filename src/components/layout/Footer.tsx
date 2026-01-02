@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import { Facebook, Twitter, Instagram, Youtube, Mail, Send, Heart } from "lucide-react";
+import { Facebook, Twitter, Instagram, Youtube, Send, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
+import gameIcon from "@/assets/game-icon.png";
 
 const Footer = () => {
   const handleNewsletterSubmit = (e: React.FormEvent) => {
@@ -23,6 +24,13 @@ const Footer = () => {
     { name: "Contact Us", path: "/contact" },
   ];
 
+  const downloadLinks = [
+    { name: "Android APK", path: "/" },
+    { name: "PC Version", path: "/pc-version" },
+    { name: "iOS Version", path: "/ios-version" },
+    { name: "Old Versions", path: "/old-version" },
+  ];
+
   return (
     <footer className="bg-card border-t border-border relative overflow-hidden">
       {/* Background Decoration */}
@@ -30,25 +38,27 @@ const Footer = () => {
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
       <div className="container-main py-16 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           {/* Column 1: About */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="space-y-6"
+            className="space-y-6 sm:col-span-2 lg:col-span-1"
           >
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="w-12 h-12 gradient-card rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-glow transition-shadow duration-300">
-                <span className="text-primary-foreground font-black text-2xl">S</span>
-              </div>
+              <img
+                src={gameIcon}
+                alt="Summertime Saga"
+                className="w-12 h-12 rounded-xl shadow-lg group-hover:shadow-glow transition-shadow duration-300"
+              />
               <div>
                 <span className="font-bold text-xl text-foreground">Summertime</span>
                 <span className="font-bold text-xl text-primary ml-1">Saga</span>
               </div>
             </Link>
-            <p className="text-muted-foreground leading-relaxed">
+            <p className="text-muted-foreground leading-relaxed text-sm">
               Download the latest version of Summertime Saga Mod APK with unlimited money and all cookie jars unlocked. Experience the ultimate gaming adventure.
             </p>
             <div className="flex items-center gap-3">
@@ -81,7 +91,7 @@ const Footer = () => {
                 <Link
                   key={link.name}
                   to={link.path}
-                  className="text-muted-foreground hover:text-primary transition-colors duration-200 flex items-center gap-2 group"
+                  className="text-muted-foreground hover:text-primary transition-colors duration-200 flex items-center gap-2 group text-sm"
                 >
                   <span className="w-1.5 h-1.5 bg-primary/50 rounded-full group-hover:bg-primary transition-colors" />
                   {link.name}
@@ -90,7 +100,30 @@ const Footer = () => {
             </nav>
           </motion.div>
 
-          {/* Column 3: Newsletter */}
+          {/* Column 3: Download Links */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="space-y-6"
+          >
+            <h3 className="font-bold text-lg text-foreground">Downloads</h3>
+            <nav className="flex flex-col gap-3">
+              {downloadLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  to={link.path}
+                  className="text-muted-foreground hover:text-primary transition-colors duration-200 flex items-center gap-2 group text-sm"
+                >
+                  <span className="w-1.5 h-1.5 bg-primary/50 rounded-full group-hover:bg-primary transition-colors" />
+                  {link.name}
+                </Link>
+              ))}
+            </nav>
+          </motion.div>
+
+          {/* Column 4: Newsletter */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -98,24 +131,24 @@ const Footer = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="space-y-6"
           >
-            <h3 className="font-bold text-lg text-foreground">Join Our Newsletter</h3>
-            <p className="text-muted-foreground">
-              Subscribe to get the latest updates and news about Summertime Saga.
+            <h3 className="font-bold text-lg text-foreground">Newsletter</h3>
+            <p className="text-muted-foreground text-sm">
+              Get the latest updates and news.
             </p>
             <form onSubmit={handleNewsletterSubmit} className="space-y-3">
               <Input
                 type="text"
                 placeholder="Your Name"
-                className="bg-background border-border focus:border-primary h-12 rounded-xl"
+                className="bg-background border-border focus:border-primary h-11 rounded-xl text-sm"
               />
               <Input
                 type="email"
                 placeholder="Your Email"
-                className="bg-background border-border focus:border-primary h-12 rounded-xl"
+                className="bg-background border-border focus:border-primary h-11 rounded-xl text-sm"
               />
-              <Button type="submit" className="w-full h-12 rounded-xl gradient-primary border-0 font-semibold gap-2 hover:shadow-glow transition-shadow duration-300">
-                <Send size={18} />
-                Subscribe Now
+              <Button type="submit" className="w-full h-11 rounded-xl gradient-primary border-0 font-semibold gap-2 hover:shadow-glow transition-shadow duration-300">
+                <Send size={16} />
+                Subscribe
               </Button>
             </form>
           </motion.div>
